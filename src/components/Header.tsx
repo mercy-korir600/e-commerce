@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ShoppingCart, Search, Menu, X } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
+import { Link, useLocation } from "react-router-dom";
 
 interface HeaderProps {
   onCartClick: () => void;
@@ -12,6 +13,7 @@ interface HeaderProps {
 export const Header = ({ onCartClick }: HeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { items } = useCart();
+  const location = useLocation();
   
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
 
@@ -29,21 +31,27 @@ export const Header = ({ onCartClick }: HeaderProps) => {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center">
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              Luxe Store
-            </h1>
+            <Link to="/">
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                Jumehira Stores
+              </h1>
+            </Link>
           </div>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
             {navigation.map((item) => (
-              <a
+              <Link
                 key={item.name}
-                href={item.href}
-                className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors story-link"
+                to={item.href}
+                className={`text-sm font-medium transition-colors ${
+                  location.pathname === item.href
+                    ? 'text-primary'
+                    : 'text-muted-foreground hover:text-primary'
+                }`}
               >
                 {item.name}
-              </a>
+              </Link>
             ))}
           </nav>
 
@@ -87,14 +95,18 @@ export const Header = ({ onCartClick }: HeaderProps) => {
           <nav className="md:hidden mt-4 pt-4 border-t animate-fade-in">
             <div className="flex flex-col space-y-4">
               {navigation.map((item) => (
-                <a
+                <Link
                   key={item.name}
-                  href={item.href}
-                  className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+                  to={item.href}
+                  className={`text-sm font-medium transition-colors ${
+                    location.pathname === item.href
+                      ? 'text-primary'
+                      : 'text-muted-foreground hover:text-primary'
+                  }`}
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {item.name}
-                </a>
+                </Link>
               ))}
             </div>
           </nav>
