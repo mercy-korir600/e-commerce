@@ -6,6 +6,7 @@ import { ShoppingCart, Search, Menu, X } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { Link, useLocation } from "react-router-dom";
 import { SearchModal } from "./SearchModal";
+import { ThemeSwitcher } from "./ThemeSwitcher";
 
 interface HeaderProps {
   onCartClick: () => void;
@@ -29,13 +30,13 @@ export const Header = ({ onCartClick }: HeaderProps) => {
 
   return (
     <>
-      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 glass-effect">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             {/* Logo */}
             <div className="flex items-center">
               <Link to="/">
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                <h1 className="text-2xl font-bold gradient-text hover-scale">
                   Jumehira Stores
                 </h1>
               </Link>
@@ -47,9 +48,9 @@ export const Header = ({ onCartClick }: HeaderProps) => {
                 <Link
                   key={item.name}
                   to={item.href}
-                  className={`text-sm font-medium transition-colors ${
+                  className={`text-sm font-medium transition-all duration-300 hover-scale ${
                     location.pathname === item.href
-                      ? 'text-primary'
+                      ? 'text-primary gradient-text'
                       : 'text-muted-foreground hover:text-primary'
                   }`}
                 >
@@ -60,6 +61,8 @@ export const Header = ({ onCartClick }: HeaderProps) => {
 
             {/* Right side buttons */}
             <div className="flex items-center space-x-4">
+              <ThemeSwitcher />
+              
               <Button 
                 variant="ghost" 
                 size="icon" 
@@ -79,7 +82,7 @@ export const Header = ({ onCartClick }: HeaderProps) => {
                 {totalItems > 0 && (
                   <Badge 
                     variant="destructive" 
-                    className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 text-xs"
+                    className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 text-xs animate-bounce-in pulse-glow"
                   >
                     {totalItems}
                   </Badge>
@@ -90,7 +93,7 @@ export const Header = ({ onCartClick }: HeaderProps) => {
               <Button
                 variant="ghost"
                 size="icon"
-                className="md:hidden"
+                className="md:hidden hover-scale"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
               >
                 {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -106,7 +109,7 @@ export const Header = ({ onCartClick }: HeaderProps) => {
                   <Link
                     key={item.name}
                     to={item.href}
-                    className={`text-sm font-medium transition-colors ${
+                    className={`text-sm font-medium transition-colors hover-scale ${
                       location.pathname === item.href
                         ? 'text-primary'
                         : 'text-muted-foreground hover:text-primary'

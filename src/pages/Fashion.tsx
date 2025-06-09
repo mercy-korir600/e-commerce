@@ -4,6 +4,7 @@ import { Header } from "@/components/Header";
 import { ProductCard } from "@/components/ProductCard";
 import { CartProvider } from "@/contexts/CartContext";
 import { CartSidebar } from "@/components/CartSidebar";
+import { FloatingCartButton } from "@/components/FloatingCartButton";
 import { Button } from "@/components/ui/button";
 import { Filter } from "lucide-react";
 
@@ -92,20 +93,20 @@ const Fashion = () => {
         <Header onCartClick={() => setIsCartOpen(true)} />
         
         {/* Category Hero */}
-        <section className="py-16 px-4 bg-gradient-to-r from-primary/10 to-secondary/10">
+        <section className="py-16 px-4 bg-gradient-to-r from-primary/10 to-secondary/10 animate-fade-in">
           <div className="max-w-7xl mx-auto text-center">
-            <h1 className="text-5xl font-bold mb-4">Fashion</h1>
-            <p className="text-xl text-muted-foreground">Style that speaks to your personality</p>
+            <h1 className="text-5xl font-bold mb-4 gradient-text animate-slide-up">Fashion</h1>
+            <p className="text-xl text-muted-foreground animate-slide-up">Style that speaks to your personality</p>
           </div>
         </section>
 
         {/* Filters */}
-        <section className="py-8 px-4 border-b">
+        <section className="py-8 px-4 border-b animate-fade-in">
           <div className="max-w-7xl mx-auto flex items-center justify-between">
-            <h2 className="text-2xl font-semibold">
+            <h2 className="text-2xl font-semibold gradient-text">
               {fashionProducts.length} Products
             </h2>
-            <Button variant="outline" className="flex items-center gap-2">
+            <Button variant="outline" className="flex items-center gap-2 hover-scale hover-glow">
               <Filter className="w-4 h-4" />
               Filter & Sort
             </Button>
@@ -116,13 +117,20 @@ const Fashion = () => {
         <section className="py-16 px-4">
           <div className="max-w-7xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {fashionProducts.map((product) => (
-                <ProductCard key={product.id} product={product} />
+              {fashionProducts.map((product, index) => (
+                <div 
+                  key={product.id} 
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                  className="animate-fade-in"
+                >
+                  <ProductCard product={product} />
+                </div>
               ))}
             </div>
           </div>
         </section>
 
+        <FloatingCartButton onClick={() => setIsCartOpen(true)} />
         <CartSidebar isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
       </div>
     </CartProvider>
